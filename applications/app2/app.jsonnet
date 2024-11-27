@@ -8,6 +8,12 @@ local values = if env == 'dev' then import 'values/values-dev.libsonnet'
               else error 'Unsupported environment: ' + env;
 
 
+[
+    ingress.basicIngress(values),
+    service.basicService(values)
+]
+
+
 //local test = std.join('\n,', [
 //    std.manifestJson(ingress.basicIngress(values)),
 //    std.manifestJson(service.basicService(values))
@@ -22,7 +28,9 @@ local values = if env == 'dev' then import 'values/values-dev.libsonnet'
 //
 //std.parseYaml(test)
 
-std.manifestYamlStream([
-    ingress.basicIngress(values),
-    service.basicService(values)
-], indent_array_in_object=false, c_document_end=false, quote_keys=false)
+//local test = std.manifestYamlStream([
+//    ingress.basicIngress(values),
+//    service.basicService(values)
+//], indent_array_in_object=false, c_document_end=false, quote_keys=false);
+//
+//std.parseYaml(test)
