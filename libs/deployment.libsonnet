@@ -3,18 +3,18 @@
 local generateEnvVariableFields = function(envVarObj)
   if std.objectHas(envVarObj, 'VALUE_FROM') then
     {
-      name: envVarObj.NAME,
-      valueFrom: {
-        secretKeyRef: {
-          name: envVarObj.VALUE_FROM.SECRET_KEY_REF.NAME,
-          key: envVarObj.VALUE_FROM.SECRET_KEY_REF.KEY,
+      Name: envVarObj.NAME,
+      ValueFrom: {
+        SecretKeyRef: {
+          Name: envVarObj.VALUE_FROM.SECRET_KEY_REF.NAME,
+          Key: envVarObj.VALUE_FROM.SECRET_KEY_REF.KEY,
         },
       },
     }
   else
     {
-      name: envVarObj.NAME,
-      value: envVarObj.VALUE,
+      Name: envVarObj.NAME,
+      Value: envVarObj.VALUE,
     };
 
 //{
@@ -67,45 +67,45 @@ local generateEnvVariableFields = function(envVarObj)
 
 {
   basicDeployment(values):: {
-    apiVersion: 'apps/v1',
-    kind: 'Deployment',
-    metadata: {
-      name: values.APPLICATION_NAME + '-deployment',
-      namespace: values.NAMESPACE,
+    ApiVersion: 'apps/v1',
+    Kind: 'Deployment',
+    Metadata: {
+      Name: values.APPLICATION_NAME + '-deployment',
+      Namespace: values.NAMESPACE,
     },
-    spec: {
-      selector: {
-        matchLabels: {
-          app: values.DEPLOYMENT.POD_NAME,
+    Spec: {
+      Selector: {
+        MatchLabels: {
+          App: values.DEPLOYMENT.POD_NAME,
         },
       },
-      replicas: values.DEPLOYMENT.NUMBER_OF_REPLICAS,
-      template: {
-        metadata: {
-          labels: {
-            app: values.DEPLOYMENT.POD_NAME,
+      Replicas: values.DEPLOYMENT.NUMBER_OF_REPLICAS,
+      Template: {
+        Metadata: {
+          Labels: {
+            App: values.DEPLOYMENT.POD_NAME,
           },
         },
-        spec: {
-          containers: [
+        Spec: {
+          Containers: [
             {
-              name: values.DEPLOYMENT.POD_NAME,
-              image: values.DEPLOYMENT.CONTAINER.IMAGE + ':' + values.DEPLOYMENT.CONTAINER.IMAGE_TAG,
-              imagePullPolicy: 'Always',
-              resources: {
-                requests: {
-                  cpu: values.DEPLOYMENT.CONTAINER.RESOURCES.CPU_REQUESTS,
+              Name: values.DEPLOYMENT.POD_NAME,
+              Image: values.DEPLOYMENT.CONTAINER.IMAGE + ':' + values.DEPLOYMENT.CONTAINER.IMAGE_TAG,
+              ImagePullPolicy: 'Always',
+              Resources: {
+                Requests: {
+                  Cpu: values.DEPLOYMENT.CONTAINER.RESOURCES.CPU_REQUESTS,
                 },
-                limits: {
-                  memory: values.DEPLOYMENT.CONTAINER.RESOURCES.MEMORY_LIMIT,
+                Limits: {
+                  Memory: values.DEPLOYMENT.CONTAINER.RESOURCES.MEMORY_LIMIT,
                 },
               },
-              ports: [
+              Ports: [
                 {
-                  containerPort: values.DEPLOYMENT.CONTAINER.PORT,
+                  ContainerPort: values.DEPLOYMENT.CONTAINER.PORT,
                 },
               ],
-              env: std.map(generateEnvVariableFields, values.DEPLOYMENT.CONTAINER.ENV_VARIABLES),
+              Env: std.map(generateEnvVariableFields, values.DEPLOYMENT.CONTAINER.ENV_VARIABLES),
             },
           ],
         },

@@ -5,13 +5,13 @@
 //local values = import "values.libsonnet";
 
 local generatePath = function(pathObj) {
-  path: pathObj.PATH,
-  pathType: 'Prefix',
-  backend: {
-    service: {
-      name: pathObj.SERVICE_NAME,
-      port: {
-        number: pathObj.PORT,
+  Path: pathObj.PATH,
+  PathType: 'Prefix',
+  Backend: {
+    Service: {
+      Name: pathObj.SERVICE_NAME,
+      Port: {
+        Number: pathObj.PORT,
       },
     },
   },
@@ -40,23 +40,23 @@ local generatePath = function(pathObj) {
 
 {
   basicIngress(values, basic_auth_enabled=false):: {
-    apiVersion: 'v1',
-    kind: 'Ingress',
-    metadata: {
-      name: values.APPLICATION_NAME + '-ingress',
-      namespace: values.NAMESPACE,
-      annotations: values.INGRESS.ANNOTATIONS + (if basic_auth_enabled then {
+    ApiVersion: 'v1',
+    Kind: 'Ingress',
+    Metadata: {
+      Name: values.APPLICATION_NAME + '-ingress',
+      Namespace: values.NAMESPACE,
+      Annotations: values.INGRESS.ANNOTATIONS + (if basic_auth_enabled then {
                                                    'nginx.ingress.kubernetes.io/auth-type': 'basic',
                                                    'nginx.ingress.kubernetes.io/auth-secret': values.INGRESS.BASIC_AUTH.SECRET_NAME,
                                                  } else {}),
     },
-    spec: {
-      ingressClassName: values.INGRESS.CLASS_NAME,
-      rules: [
+    Spec: {
+      IngressClassName: values.INGRESS.CLASS_NAME,
+      Rules: [
         {
-          host: values.DNS_PREFIX + values.APPLICATION_NAME + '.' + values.DNS_DOMAIN,
-          http: {
-            paths: std.map(generatePath, values.INGRESS.PATHS),
+          Host: values.DNS_PREFIX + values.APPLICATION_NAME + '.' + values.DNS_DOMAIN,
+          Http: {
+            Paths: std.map(generatePath, values.INGRESS.PATHS),
           },
         },
       ],
