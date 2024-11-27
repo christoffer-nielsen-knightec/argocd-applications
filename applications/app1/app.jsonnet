@@ -8,12 +8,8 @@ local values = if env == 'dev' then import 'values/values-dev.libsonnet'
               else if env == 'prod' then import 'values/values-prod.libsonnet'
               else error 'Unsupported environment: ' + env;
 
-local deployment = deployment.basicDeployment(values);
-local ingress = ingress.basicIngress(values);
-local service = service.basicService(values);
-
 [
-    deployment,
-    ingress,
-    service
+    deployment.basicDeployment(values),
+    ingress.basicIngress(values),
+    service.basicService(values)
 ]
