@@ -7,7 +7,22 @@ local values = if env == 'dev' then import 'values/values-dev.libsonnet'
               else if env == 'prod' then import 'values/values-prod.libsonnet'
               else error 'Unsupported environment: ' + env;
 
-[
+
+//local test = std.join('\n,', [
+//    std.manifestJson(ingress.basicIngress(values)),
+//    std.manifestJson(service.basicService(values))
+//]);
+//
+//std.parseJson("[" + test + "]")
+
+//local test = std.join('---', [
+//    std.manifestYamlDoc(ingress.basicIngress(values), indent_array_in_object=false, quote_keys=false),
+//    std.manifestYamlDoc(service.basicService(values), indent_array_in_object=false, quote_keys=false)
+//]);
+//
+//std.parseYaml(test)
+
+std.manifestYamlStream([
     ingress.basicIngress(values),
     service.basicService(values)
-]
+], indent_array_in_object=false, c_document_end=false, quote_keys=false)
