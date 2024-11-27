@@ -8,13 +8,11 @@ local values = if env == 'dev' then import 'values/values-dev.libsonnet'
               else if env == 'prod' then import 'values/values-prod.libsonnet'
               else error 'Unsupported environment: ' + env;
 
-{
-    "manifests": [
-        deployment.basicDeployment(values),
-        ingress.basicIngress(values),
-        service.basicService(values)
-    ]
-}
+[
+    deployment.basicDeployment(values),
+    ingress.basicIngress(values),
+    service.basicService(values)
+]
 
 //std.manifestYamlStream([
 //    deployment.basicDeployment(values),

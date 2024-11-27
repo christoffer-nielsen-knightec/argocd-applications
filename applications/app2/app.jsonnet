@@ -7,12 +7,10 @@ local values = if env == 'dev' then import 'values/values-dev.libsonnet'
               else if env == 'prod' then import 'values/values-prod.libsonnet'
               else error 'Unsupported environment: ' + env;
 
-{
-    "manifests": [
-        ingress.basicIngress(values),
-        service.basicService(values)
-    ]
-}
+[
+    ingress.basicIngress(values),
+    service.basicService(values)
+]
 
 
 //local test = std.join('\n,', [
