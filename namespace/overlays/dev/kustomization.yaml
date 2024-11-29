@@ -1,6 +1,7 @@
 resources:
   - ../../base
 
+namespace: nginx-test
 
 configMapGenerator:
   - name: configmap
