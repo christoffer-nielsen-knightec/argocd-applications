@@ -1,0 +1,13 @@
+# ============================= ConfigMap source =============================
+- source:
+    kind: ConfigMap
+    name: configmap
+    fieldPath: data.APP_NAME
+  targets:
+    - select:
+        kind: Deployment
+      fieldPaths:
+        - spec.template.spec.containers.0.name
+      options:
+        delimiter: "-"
+        index: 0

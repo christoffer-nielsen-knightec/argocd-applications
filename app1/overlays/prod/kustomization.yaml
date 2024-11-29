@@ -1,0 +1,16 @@
+resources:
+  - ../../base
+
+# Unique namespace for the prod environment
+namespace: tf-flash-prod
+
+# Merge the dev.env file with the base.env file to create the ConfigMap
+configMapGenerator:
+  - name: tag-manager-configmap
+    behavior: merge
+    envs:
+      - _prod.env
+
+# Replaces the placeholders in the manifests with the values from the replacements.yaml file
+replacements:
+  - path: replacements.yaml

@@ -1,0 +1,44 @@
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: deployment
+#spec:
+#  replicas: 1
+#  template:
+#    spec:
+#      containers:
+#        - name: APP_NAME-pod
+#          image: nginx:latest
+#          imagePullPolicy: Always
+#          readinessProbe:
+#            httpGet:
+#              path: /health
+#              port: 8080
+#            initialDelaySeconds: 5
+#            timeoutSeconds: 5
+#            successThreshold: 1
+#            failureThreshold: 3
+#            periodSeconds: 10
+#          resources:
+#            requests:
+#              cpu: 100m
+#            limits:
+#              memory: "0.5Gi"
+#          ports:
+#            - containerPort: 8080
+#          envFrom:
+#            - configMapRef:
+#                name: APP_NAME-configmap
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80

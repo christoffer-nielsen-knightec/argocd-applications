@@ -1,0 +1,72 @@
+# ============================= ConfigMap source =============================
+- source:
+    kind: ConfigMap
+    name: configmap
+    fieldPath: data.APP_NAME
+  targets:
+    - select:
+        kind: Ingress
+      fieldPaths:
+        - spec.rules.0.http.paths.*.backend.service.name
+      options:
+        delimiter: "-"
+        index: 0
+    - select:
+        kind: Ingress
+      fieldPaths:
+        - spec.rules.0.host
+      options:
+        delimiter: "-"
+        index: 1
+    - select:
+        kind: Deployment
+      fieldPaths:
+        - spec.template.spec.containers.0.name
+      options:
+        delimiter: "-"
+        index: 0
+
+- source:
+    kind: ConfigMap
+    name: configmap
+    fieldPath: data.HEALTH_CHECK_PATH
+  targets:
+    - select:
+        kind: Deployment
+      fieldPaths:
+        - spec.template.spec.containers.0.readinessProbe.httpGet.path
+
+- source:
+    kind: ConfigMap
+    name: configmap
+    fieldPath: data.HEALTH_CHECK_PORT
+  targets:
+    - select:
+        kind: Deployment
+      fieldPaths:
+        - spec.template.spec.containers.0.readinessProbe.httpGet.port
+
+# =================================================================================
+
+# ============================= ExternalSecret source =============================
+- source:
+    kind: ExternalSecret
+    name: customer
+    fieldPath: metadata.name
+  targets:
+    - select:
+        kind: Ingress
+      fieldPaths:
+        - metadata.annotations.[nginx.ingress.kubernetes.io/auth-secret]
+
+- source:
+    kind: ExternalSecret
+    name: secrets
+    fieldPath: metadata.name
+  targets:
+    - select:
+        kind: Deployment
+      fieldPaths:
+        - spec.template.spec.containers.0.envFrom.0.secretRef.name
+
+# =================================================================================

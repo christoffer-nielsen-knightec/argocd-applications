@@ -1,0 +1,5 @@
+resources:
+  - ../../base
+
+# Unique namespace for the dev environment
+namespace: nginx-test

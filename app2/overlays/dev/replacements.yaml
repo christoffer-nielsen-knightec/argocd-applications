@@ -1,0 +1,40 @@
+# ============================= ConfigMap source =============================
+- source:
+    kind: ConfigMap
+    name: configmap
+    fieldPath: data.NUMBER_OF_REPLICAS
+  targets:
+    - select:
+        kind: Deployment
+      fieldPaths:
+        - spec.replicas
+
+- source:
+    kind: ConfigMap
+    name: configmap
+    fieldPath: data.DOCKER_IMAGE
+  targets:
+    - select:
+        kind: Deployment
+      fieldPaths:
+        - spec.template.spec.containers.0.image
+      options:
+        delimiter: ":"
+        index: 0
+        create: true
+
+- source:
+    kind: ConfigMap
+    name: configmap
+    fieldPath: data.DOCKER_IMAGE_TAG
+  targets:
+    - select:
+        kind: Deployment
+      fieldPaths:
+        - spec.template.spec.containers.0.image
+      options:
+        delimiter: ":"
+        index: 1
+        create: true
+
+# =================================================================================

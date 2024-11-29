@@ -1,0 +1,17 @@
+resources:
+  - ../../common
+
+commonLabels:
+  app: nginx-app-2
+
+namePrefix: nginx-app-2-
+
+# Generate the ConfigMap from the base.env file
+configMapGenerator:
+  - name: configmap
+    envs:
+      - _base.env
+
+# Replaces the placeholders in the manifests with the values from the replacements.yaml file
+replacements:
+  - path: replacements.yaml

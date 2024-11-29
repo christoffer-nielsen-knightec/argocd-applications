@@ -1,0 +1,24 @@
+resources:
+  - ../../common
+  - external-secrets.yaml
+
+commonLabels:
+  app: tag-manager
+
+namePrefix: tag-manager-
+
+# Generate the ConfigMap from the base.env file
+configMapGenerator:
+  - name: configmap
+    envs:
+      - _base.env
+
+# Replaces the placeholders in the manifests with the values from the replacements.yaml file
+replacements:
+  - path: replacements.yaml
+
+# Patches the manifests with patches unique to this application
+patches:
+  - path: patches/deployment-env-secrets-patch.yaml
+  - path: patches/ingress-basic-auth-patch.yaml
+  - path: patches/ingress-paths-patch.yaml
