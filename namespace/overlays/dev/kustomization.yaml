@@ -1,0 +1,20 @@
+resources:
+  - ../../base
+
+
+configMapGenerator:
+  - name: configmap
+    literals:
+      - NAMESPACE_NAME=nginx-test
+
+replacements:
+- source:
+      kind: ConfigMap
+      name: configmap
+      fieldPath: data.NAMESPACE_NAME
+  targets:
+    - select:
+        kind: Namespace
+      fieldPaths:
+        - metadata.name
+
